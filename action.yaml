@@ -1,3 +1,5 @@
+---
+
 name: 'Create changelog based release'
 author: 'brainelectronics'
 description: 'changelog2version based release action'
@@ -48,7 +50,7 @@ runs:
   using: "composite"
   steps:
     - name: Set up Python
-      uses: actions/setup-python@v4
+      uses: actions/setup-python@v6
       with:
         python-version: '3.10'
     - name: Install required packages
@@ -70,12 +72,11 @@ runs:
         echo "LATEST_VERSION=$latest_version" >> $GITHUB_OUTPUT
       shell: bash
     - name: Create (Pre)Release
-      uses: actions/create-release@v1
-      env:
-        GITHUB_TOKEN: ${{ inputs.github-token }}
+      uses: softprops/action-gh-release@v2
       with:
         tag_name: ${{ inputs.tag-name-prefix }}${{ steps.parse-changelog.outputs.LATEST_VERSION }}${{ inputs.tag-name-extension }}
-        release_name: ${{ inputs.tag-name-prefix }}${{ steps.parse-changelog.outputs.LATEST_VERSION }}${{ inputs.release-name-extension }}
+        name: ${{ inputs.tag-name-prefix }}${{ steps.parse-changelog.outputs.LATEST_VERSION }}${{ inputs.release-name-extension }}
         body: ${{ steps.parse-changelog.outputs.LATEST_DESCRIPTION }}
         draft: ${{ inputs.draft-release }}
         prerelease: ${{ inputs.prerelease }}
+        token: ${{ inputs.github-token }}
