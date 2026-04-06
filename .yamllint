@@ -1,2 +1,12 @@
-indentation:
-  indent-sequences: false
+---
+
+extends: default
+
+ignore:
+  - .venv
+
+rules:
+  line-length:
+    level: warning
+    ignore:
+      - .github/workflows/*

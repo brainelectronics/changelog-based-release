@@ -1,9 +1,10 @@
-# this file is *not* meant to cover or endorse the use of GitHub Actions, but rather to
-# help make automated releases for this project
+# this file is *not* meant to cover or endorse the use of GitHub Actions,
+# but rather to help make automated releases for this project
 
+---
 name: Create release
 
-on:
+on:  # yamllint disable-line rule:truthy
   push:
     branches:
       - main
