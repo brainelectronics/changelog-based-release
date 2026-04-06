@@ -1,9 +1,10 @@
-# this file is *not* meant to cover or endorse the use of GitHub Actions, but rather to
-# help make automated releases for this project
+# this file is *not* meant to cover or endorse the use of GitHub Actions,
+# but rather to help make automated releases for this project
 
+---
 name: Draft release
 
-on: [pull_request]
+on: [pull_request]  # yamllint disable-line rule:truthy
 
 permissions:
   contents: write
@@ -14,7 +15,7 @@ jobs:
     name: Create draft release
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v6
       - name: Test action with default inputs
         uses: brainelectronics/changelog-based-release@main
         with:
@@ -23,15 +24,18 @@ jobs:
         id: foo
         uses: brainelectronics/changelog-based-release@main
         with:
-          github-token:  ${{ secrets.GITHUB_TOKEN }}
+          github-token: ${{ secrets.GITHUB_TOKEN }}
           changelog-path: 'changelog.md'
           tag-name-prefix: 'v'
           tag-name-extension: '+${{ github.sha }}'
           release-name-prefix: 'Test v'
+          # yamllint disable-line rule:line-length
           release-name-extension: '-rc${{ github.run_number }}.dev${{ github.event.number }}+${{ github.sha }}'
           draft-release: true
           prerelease: false
       - name: Report action output
+        # yamllint disable rule:line-length
         run: |
           printf "Latest changelog change description: ${{ steps.foo.outputs.latest-description }}"
           echo "Latest changelog version: ${{ steps.foo.outputs.latest-version }}"
+        # yamllint enable rule:line-length
