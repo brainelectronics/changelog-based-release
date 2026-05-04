@@ -83,7 +83,7 @@ jobs:
     name: Release
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v6
       - name: 'Create changelog based release'
         uses: brainelectronics/changelog-based-release@v1
 ```
@@ -102,11 +102,12 @@ The following are optional as `step.with` keys
 | `release-name-extension`  | String  | Extension of release name after extracted x.y.z from changelog, e.g. `-rc` to get `1.2.3-rc`. Defaults to `-rc${{ github.run_number }}.dev${{ github.event.number }}` e.g. `1.2.3-rc21.dev`                           |
 | `draft-release`           | Boolean | Indicator of whether or not this release is a draft. Defaults to `false`                                                                                                                                              |
 | `prerelease`              | Boolean | Indicator of whether or not is a prerelease. Defaults to `false`                                                                                                                                                      |
+| `from-commit-sha`         | String  | Commit SHA to create tag on. Defaults to `${{ github.head_ref }}`                                                                                                                                                      |
 
 ```yaml
 steps:
   - name: Checkout
-    uses: actions/checkout@v3
+    uses: actions/checkout@v6
   - name: 'Create changelog based release'
     uses: brainelectronics/changelog-based-release@v1
     with:
