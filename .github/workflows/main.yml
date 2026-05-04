@@ -74,7 +74,7 @@ jobs:
           # yamllint disable-line rule:line-length
           release-name-extension: '-rc${{ steps.count.outputs.rc_number }}.dev${{ github.event.number }}+${{ github.sha }}'
           draft-release: true
-          prerelease: false
+          prerelease: true
       - name: Report action output
         # yamllint disable rule:line-length
         run: |
