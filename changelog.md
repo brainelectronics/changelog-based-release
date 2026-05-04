@@ -17,6 +17,10 @@ r"^\#\# \[\d{1,}[.]\d{1,}[.]\d{1,}\] \- \d{4}\-\d{2}-\d{2}$"
 -->
 
 ## Released
+## [1.2.1] - 2026-05-04
+### Fixed
+- Use `github.head_ref` as default for `target_commitish` instead of `github.sha`
+
 ## [1.2.0] - 2026-05-04
 ### Added
 - Custom commit SHA for tag can be specified with `from-commit-sha`
@@ -56,8 +60,9 @@ r"^\#\# \[\d{1,}[.]\d{1,}[.]\d{1,}\] \- \d{4}\-\d{2}-\d{2}$"
 - The above `0.1.0` section is required due to a bug in `changelog2version`
 
 <!-- Links -->
-[Unreleased]: https://github.com/brainelectronics/changelog-based-release/compare/1.2.0...main
+[Unreleased]: https://github.com/brainelectronics/changelog-based-release/compare/1.2.1...main
 
+[1.2.1]: https://github.com/brainelectronics/changelog-based-release/tree/1.2.1
 [1.2.0]: https://github.com/brainelectronics/changelog-based-release/tree/1.2.0
 [1.1.0]: https://github.com/brainelectronics/changelog-based-release/tree/1.1.0
 [1.0.0]: https://github.com/brainelectronics/changelog-based-release/tree/1.0.0
