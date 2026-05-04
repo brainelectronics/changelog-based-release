@@ -67,7 +67,7 @@ runs:
       run: changelog2version --version
       shell: bash
     - name: Log commit SHA
-      run: echo "Create (Pre)Release from ${{ inputs.from-commit-sha }}
+      run: echo "Create (Pre)Release from ${{ inputs.from-commit-sha }}"
       shell: bash
     - name: Parse changelog
       id: parse-changelog
