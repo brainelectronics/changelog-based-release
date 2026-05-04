@@ -16,6 +16,48 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v6
+      - name: Count run number
+        id: count
+        uses: actions/github-script@v9
+        with:
+          script: |
+            const pr = context.payload.pull_request;
+            if (!pr) {
+              core.setFailed("This workflow must be triggered by a pull request.");
+              return;
+            }
+
+            const pr_number = pr.number;
+            const workflow_name = context.workflow;
+            const branch_name = pr.head.ref;
+            const event_match = "pull_request";
+            console.log("PR Number: " + pr_number);
+            console.log("Workflow name: " + workflow_name);
+            console.log("Branch name: " + branch_name);
+
+            if (!pr_number) {
+              console.log("No pull request number found in context.");
+              core.setOutput("count", 0);
+              return;
+            }
+
+            const runs = await github.rest.actions.listWorkflowRunsForRepo({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              event: event_match,
+              branch: branch_name,
+              per_page: 100
+            });
+
+            const filtered = runs.data.workflow_runs.filter(run =>
+              run.name === workflow_name &&
+              run.event === event_match &&
+              run.pull_requests?.some(p => p.number === pr_number)
+            );
+            console.log("Matches for filters aka runs: " + filtered.length);
+
+            const count = filtered.length > 0 ? filtered.length : 1;
+            core.setOutput("rc_number", count);
       - name: Test action with default inputs
         uses: brainelectronics/changelog-based-release@main
         with:
@@ -30,7 +72,7 @@ jobs:
           tag-name-extension: '+${{ github.sha }}'
           release-name-prefix: 'Test v'
           # yamllint disable-line rule:line-length
-          release-name-extension: '-rc${{ github.run_number }}.dev${{ github.event.number }}+${{ github.sha }}'
+          release-name-extension: '-rc${{ steps.count.outputs.rc_number }}.dev${{ github.event.number }}+${{ github.sha }}'
           draft-release: true
           prerelease: false
       - name: Report action output

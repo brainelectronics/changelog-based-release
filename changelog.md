@@ -23,6 +23,7 @@ r"^\#\# \[\d{1,}[.]\d{1,}[.]\d{1,}\] \- \d{4}\-\d{2}-\d{2}$"
 
 ### Fixed
 - Always create the release from the checked out commit SHA
+- Set correct number for the rc metadata
 
 ## [1.1.0] - 2026-04-06
 ### Added
