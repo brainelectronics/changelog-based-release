@@ -38,6 +38,10 @@ inputs:
     description: 'Is this a Prerelease'
     required: true
     default: false
+  from-commit-sha:
+    description: 'Commit SHA to create tag on'
+    required: false
+    default: ${{ github.sha }}
 
 outputs:
   latest-description:
@@ -62,6 +66,9 @@ runs:
     - name: Print changelog2version version
       run: changelog2version --version
       shell: bash
+    - name: Log commit SHA
+      run: echo ${{ github.sha }}
+      shell: bash
     - name: Parse changelog
       id: parse-changelog
       # yamllint disable rule:line-length
@@ -82,6 +89,7 @@ runs:
         # yamllint disable-line rule:line-length
         name: ${{ inputs.tag-name-prefix }}${{ steps.parse-changelog.outputs.LATEST_VERSION }}${{ inputs.release-name-extension }}
         body: ${{ steps.parse-changelog.outputs.LATEST_DESCRIPTION }}
+        target_commitish: ${{ inputs.from-commit-sha }}
         draft: ${{ inputs.draft-release }}
         prerelease: ${{ inputs.prerelease }}
         token: ${{ inputs.github-token }}
